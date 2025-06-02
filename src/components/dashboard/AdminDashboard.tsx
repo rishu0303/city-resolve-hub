@@ -5,15 +5,17 @@ import { Card, CardHeader, CardTitle, CardContent } from '../ui/card';
 import { Button } from '../ui/button';
 import { Badge } from '../ui/badge';
 import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from '../ui/select';
+import { Table, TableBody, TableCell, TableHead, TableHeader, TableRow } from '../ui/table';
 import ComplaintCard from '../complaints/ComplaintCard';
 import AssignComplaintModal from '../complaints/AssignComplaintModal';
-import { MapPin, Users, Clock, CheckCircle } from 'lucide-react';
+import { MapPin, Users, Clock, CheckCircle, Filter } from 'lucide-react';
 
 const AdminDashboard = () => {
   const { complaints, fetchComplaints, updateComplaintStatus, loading } = useComplaints();
   const [filter, setFilter] = useState<string>('all');
   const [categoryFilter, setCategoryFilter] = useState<string>('all');
   const [selectedComplaint, setSelectedComplaint] = useState<string | null>(null);
+  const [viewMode, setViewMode] = useState<'cards' | 'table'>('cards');
 
   useEffect(() => {
     fetchComplaints();
@@ -35,6 +37,15 @@ const AdminDashboard = () => {
   const handleStatusUpdate = async (id: string, status: any) => {
     await updateComplaintStatus(id, status);
     fetchComplaints();
+  };
+
+  const getStatusColor = (status: string) => {
+    switch (status) {
+      case 'Pending': return 'bg-yellow-100 text-yellow-800';
+      case 'In Progress': return 'bg-blue-100 text-blue-800';
+      case 'Resolved': return 'bg-green-100 text-green-800';
+      default: return 'bg-gray-100 text-gray-800';
+    }
   };
 
   if (loading) {
@@ -103,9 +114,27 @@ const AdminDashboard = () => {
       {/* Filters */}
       <Card className="mb-6">
         <CardHeader>
-          <CardTitle className="flex items-center">
-            <MapPin className="h-5 w-5 mr-2" />
-            Filter Complaints
+          <CardTitle className="flex items-center justify-between">
+            <div className="flex items-center">
+              <Filter className="h-5 w-5 mr-2" />
+              Filter Complaints
+            </div>
+            <div className="flex space-x-2">
+              <Button
+                variant={viewMode === 'cards' ? 'default' : 'outline'}
+                size="sm"
+                onClick={() => setViewMode('cards')}
+              >
+                Cards
+              </Button>
+              <Button
+                variant={viewMode === 'table' ? 'default' : 'outline'}
+                size="sm"
+                onClick={() => setViewMode('table')}
+              >
+                Table
+              </Button>
+            </div>
           </CardTitle>
         </CardHeader>
         <CardContent>
@@ -149,38 +178,100 @@ const AdminDashboard = () => {
 
       {/* Complaints List */}
       {filteredComplaints.length > 0 ? (
-        <div className="grid gap-4">
-          {filteredComplaints.map((complaint) => (
-            <div key={complaint.id} className="bg-white rounded-lg border border-gray-200 p-6">
-              <ComplaintCard complaint={complaint} isAdmin />
-              <div className="mt-4 flex flex-wrap gap-2">
-                <Button
-                  size="sm"
-                  variant="outline"
-                  onClick={() => handleStatusUpdate(complaint.id, 'In Progress')}
-                  disabled={complaint.status === 'In Progress'}
-                >
-                  Mark In Progress
-                </Button>
-                <Button
-                  size="sm"
-                  variant="outline"
-                  onClick={() => handleStatusUpdate(complaint.id, 'Resolved')}
-                  disabled={complaint.status === 'Resolved'}
-                >
-                  Mark Resolved
-                </Button>
-                <Button
-                  size="sm"
-                  variant="outline"
-                  onClick={() => setSelectedComplaint(complaint.id)}
-                >
-                  Assign Team
-                </Button>
+        viewMode === 'cards' ? (
+          <div className="grid gap-4">
+            {filteredComplaints.map((complaint) => (
+              <div key={complaint.id} className="bg-white rounded-lg border border-gray-200 p-6">
+                <ComplaintCard complaint={complaint} isAdmin />
+                <div className="mt-4 flex flex-wrap gap-2">
+                  <Button
+                    size="sm"
+                    variant="outline"
+                    onClick={() => handleStatusUpdate(complaint.id, 'In Progress')}
+                    disabled={complaint.status === 'In Progress'}
+                  >
+                    Mark In Progress
+                  </Button>
+                  <Button
+                    size="sm"
+                    variant="outline"
+                    onClick={() => handleStatusUpdate(complaint.id, 'Resolved')}
+                    disabled={complaint.status === 'Resolved'}
+                  >
+                    Mark Resolved
+                  </Button>
+                  <Button
+                    size="sm"
+                    variant="outline"
+                    onClick={() => setSelectedComplaint(complaint.id)}
+                  >
+                    Assign Team
+                  </Button>
+                </div>
               </div>
-            </div>
-          ))}
-        </div>
+            ))}
+          </div>
+        ) : (
+          <Card>
+            <CardContent className="p-0">
+              <Table>
+                <TableHeader>
+                  <TableRow>
+                    <TableHead>Title</TableHead>
+                    <TableHead>Category</TableHead>
+                    <TableHead>Status</TableHead>
+                    <TableHead>Assigned To</TableHead>
+                    <TableHead>Created</TableHead>
+                    <TableHead>Actions</TableHead>
+                  </TableRow>
+                </TableHeader>
+                <TableBody>
+                  {filteredComplaints.map((complaint) => (
+                    <TableRow key={complaint.id}>
+                      <TableCell className="font-medium">
+                        {complaint.title}
+                      </TableCell>
+                      <TableCell>
+                        <Badge variant="outline" className="capitalize">
+                          {complaint.category}
+                        </Badge>
+                      </TableCell>
+                      <TableCell>
+                        <Badge className={getStatusColor(complaint.status)}>
+                          {complaint.status}
+                        </Badge>
+                      </TableCell>
+                      <TableCell>{complaint.assignedTo || 'Unassigned'}</TableCell>
+                      <TableCell>
+                        {new Date(complaint.createdAt).toLocaleDateString()}
+                      </TableCell>
+                      <TableCell>
+                        <div className="flex space-x-1">
+                          <Button
+                            size="sm"
+                            variant="outline"
+                            onClick={() => handleStatusUpdate(complaint.id, 'In Progress')}
+                            disabled={complaint.status === 'In Progress'}
+                          >
+                            Progress
+                          </Button>
+                          <Button
+                            size="sm"
+                            variant="outline"
+                            onClick={() => handleStatusUpdate(complaint.id, 'Resolved')}
+                            disabled={complaint.status === 'Resolved'}
+                          >
+                            Resolve
+                          </Button>
+                        </div>
+                      </TableCell>
+                    </TableRow>
+                  ))}
+                </TableBody>
+              </Table>
+            </CardContent>
+          </Card>
+        )
       ) : (
         <Card>
           <CardContent className="p-12 text-center">
