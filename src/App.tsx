@@ -8,6 +8,7 @@ import { AuthProvider } from './contexts/AuthContext';
 import { ComplaintProvider } from './contexts/ComplaintContext';
 import Navbar from './components/layout/Navbar';
 import Login from './components/auth/Login';
+import AdminLogin from './components/auth/AdminLogin';
 import Register from './components/auth/Register';
 import UserDashboard from './components/dashboard/UserDashboard';
 import AdminDashboard from './components/dashboard/AdminDashboard';
@@ -31,6 +32,7 @@ const App = () => (
               <main className="pt-16">
                 <Routes>
                   <Route path="/login" element={<Login />} />
+                  <Route path="/admin/login" element={<AdminLogin />} />
                   <Route path="/register" element={<Register />} />
                   <Route 
                     path="/dashboard" 
