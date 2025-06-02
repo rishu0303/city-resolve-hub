@@ -1,73 +1,229 @@
-# Welcome to your Lovable project
 
-## Project info
+# Smart Complaint Management System
 
-**URL**: https://lovable.dev/projects/269aaeba-f4c3-481d-9b8c-7bae1dc12435
+A full-stack municipal services complaint management system built with React, TypeScript, and Tailwind CSS. This system allows citizens to submit complaints about municipal issues and enables administrators to manage and track complaint resolution.
 
-## How can I edit this code?
+## 🚀 Features
 
-There are several ways of editing your application.
+### 🔐 Authentication & Authorization
+- JWT-based authentication system
+- Role-based access control (User/Admin)
+- Protected routes and components
+- Demo accounts for testing
 
-**Use Lovable**
+### 📋 Complaint Management
+- Submit complaints with detailed information
+- Upload photo evidence
+- Location selection with interactive map
+- Category-based organization
+- Status tracking (Pending → In Progress → Resolved)
+- Real-time updates and notifications
 
-Simply visit the [Lovable Project](https://lovable.dev/projects/269aaeba-f4c3-481d-9b8c-7bae1dc12435) and start prompting.
+### 🗺️ Location Services
+- Interactive location picker
+- Address search functionality
+- GPS-based current location detection
+- Common locations quick selection
+- Map visualization for complaint locations
 
-Changes made via Lovable will be committed automatically to this repo.
+### 👥 User Dashboard
+- Personal complaint tracking
+- Status-based filtering
+- Progress statistics
+- Complaint history
+- Responsive design for mobile and desktop
 
-**Use your preferred IDE**
+### 🛠️ Admin Panel
+- Comprehensive complaint management
+- Assignment to municipal teams
+- Status updates and workflow management
+- Category and status-based filtering
+- Analytics and statistics
 
-If you want to work locally using your own IDE, you can clone this repo and push changes. Pushed changes will also be reflected in Lovable.
+### 🎨 Modern UI/UX
+- Clean, professional design
+- Responsive layout for all devices
+- Interactive components with hover states
+- Status badges and progress indicators
+- Toast notifications for user feedback
 
-The only requirement is having Node.js & npm installed - [install with nvm](https://github.com/nvm-sh/nvm#installing-and-updating)
+## 🛠️ Tech Stack
 
-Follow these steps:
+### Frontend
+- **React 18** - Modern React with hooks
+- **TypeScript** - Type-safe development
+- **Tailwind CSS** - Utility-first styling
+- **Shadcn/UI** - High-quality component library
+- **React Router** - Client-side routing
+- **React Context** - State management
+- **Lucide React** - Modern icon library
+- **Sonner** - Toast notifications
 
-```sh
-# Step 1: Clone the repository using the project's Git URL.
-git clone <YOUR_GIT_URL>
+### Backend Integration Ready
+- RESTful API structure
+- JWT authentication flow
+- File upload capabilities
+- Geolocation services
+- Real-time updates
 
-# Step 2: Navigate to the project directory.
-cd <YOUR_PROJECT_NAME>
+## 🚀 Getting Started
 
-# Step 3: Install the necessary dependencies.
-npm i
+### Prerequisites
+- Node.js 16+ 
+- npm or yarn
 
-# Step 4: Start the development server with auto-reloading and an instant preview.
-npm run dev
+### Installation
+
+1. **Clone the repository**
+   ```bash
+   git clone <repository-url>
+   cd smart-complaint-system
+   ```
+
+2. **Install dependencies**
+   ```bash
+   npm install
+   ```
+
+3. **Start the development server**
+   ```bash
+   npm run dev
+   ```
+
+4. **Open your browser**
+   Navigate to `http://localhost:8080`
+
+### Demo Accounts
+
+For testing purposes, use these demo accounts:
+
+**Regular User:**
+- Email: `user@example.com`
+- Password: `password`
+
+**Administrator:**
+- Email: `admin@example.com`
+- Password: `password`
+
+## 🗂️ Project Structure
+
+```
+src/
+├── components/          # Reusable UI components
+│   ├── auth/           # Authentication components
+│   ├── complaints/     # Complaint-related components
+│   ├── dashboard/      # Dashboard components
+│   ├── layout/         # Layout components
+│   └── ui/            # Base UI components (shadcn/ui)
+├── contexts/           # React Context providers
+│   ├── AuthContext.tsx
+│   └── ComplaintContext.tsx
+├── pages/              # Page components
+├── lib/                # Utility functions
+└── types/              # TypeScript type definitions
 ```
 
-**Edit a file directly in GitHub**
+## 🔧 Backend API Structure
 
-- Navigate to the desired file(s).
-- Click the "Edit" button (pencil icon) at the top right of the file view.
-- Make your changes and commit the changes.
+The frontend is designed to integrate with a RESTful API with the following endpoints:
 
-**Use GitHub Codespaces**
+### Authentication
+- `POST /auth/register` - User registration
+- `POST /auth/login` - User login
+- `POST /auth/logout` - User logout
+- `GET /auth/me` - Get current user
 
-- Navigate to the main page of your repository.
-- Click on the "Code" button (green button) near the top right.
-- Select the "Codespaces" tab.
-- Click on "New codespace" to launch a new Codespace environment.
-- Edit files directly within the Codespace and commit and push your changes once you're done.
+### Complaints
+- `GET /complaints` - Get all complaints (Admin only)
+- `GET /complaints/user` - Get user's complaints
+- `POST /complaints` - Create new complaint
+- `PUT /complaints/:id` - Update complaint
+- `DELETE /complaints/:id` - Delete complaint
+- `PUT /complaints/:id/assign` - Assign complaint (Admin only)
+- `PUT /complaints/:id/status` - Update status (Admin only)
 
-## What technologies are used for this project?
+### File Upload
+- `POST /upload` - Upload image files
 
-This project is built with:
+## 🎯 Key Features Explained
 
-- Vite
-- TypeScript
-- React
-- shadcn-ui
-- Tailwind CSS
+### Complaint Submission Flow
+1. **Authentication** - Users must be logged in
+2. **Form Completion** - Title, description, category selection
+3. **Image Upload** - Optional photo evidence
+4. **Location Selection** - Map-based or address search
+5. **Submission** - Real-time validation and feedback
 
-## How can I deploy this project?
+### Admin Workflow
+1. **Dashboard Overview** - Statistics and filtering
+2. **Complaint Review** - Detailed complaint information
+3. **Assignment** - Assign to appropriate municipal teams
+4. **Status Management** - Update complaint status
+5. **Resolution Tracking** - Monitor completion
 
-Simply open [Lovable](https://lovable.dev/projects/269aaeba-f4c3-481d-9b8c-7bae1dc12435) and click on Share -> Publish.
+### Responsive Design
+- **Mobile-First** - Optimized for mobile devices
+- **Progressive Enhancement** - Enhanced features on larger screens
+- **Touch-Friendly** - Appropriate touch targets and gestures
+- **Cross-Browser** - Compatible with modern browsers
 
-## Can I connect a custom domain to my Lovable project?
+## 🔒 Security Features
 
-Yes, you can!
+- **Input Validation** - Client and server-side validation
+- **File Type Checking** - Secure image upload validation
+- **Route Protection** - Authentication-based access control
+- **Role-Based Access** - Admin vs. User permissions
+- **XSS Protection** - Sanitized user inputs
 
-To connect a domain, navigate to Project > Settings > Domains and click Connect Domain.
+## 📱 Mobile Features
 
-Read more here: [Setting up a custom domain](https://docs.lovable.dev/tips-tricks/custom-domain#step-by-step-guide)
+- **Responsive Design** - Works on all screen sizes
+- **GPS Integration** - Use device location for complaints
+- **Touch Optimization** - Mobile-friendly interactions
+- **Offline Indication** - Network status awareness
+- **Fast Loading** - Optimized for mobile networks
+
+## 🚀 Deployment
+
+### Frontend Deployment (Vercel/Netlify)
+```bash
+npm run build
+# Deploy dist/ folder to your hosting service
+```
+
+### Environment Variables
+```env
+VITE_API_URL=your_backend_api_url
+VITE_CLOUDINARY_URL=your_cloudinary_url
+VITE_MAPBOX_TOKEN=your_mapbox_token
+```
+
+## 🤝 Contributing
+
+1. Fork the repository
+2. Create a feature branch
+3. Make your changes
+4. Add tests if applicable
+5. Submit a pull request
+
+## 📄 License
+
+This project is licensed under the MIT License - see the LICENSE file for details.
+
+## 🆘 Support
+
+For support and questions:
+- Create an issue on GitHub
+- Check the documentation
+- Review the demo implementation
+
+## 🎉 Acknowledgments
+
+- **Shadcn/UI** for the excellent component library
+- **Tailwind CSS** for the utility-first CSS framework
+- **Lucide** for the beautiful icon set
+- **React Team** for the amazing framework
+
+---
+
+Built with ❤️ for better municipal services and community engagement.
