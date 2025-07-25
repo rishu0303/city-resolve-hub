@@ -6,7 +6,9 @@ interface User {
   id: string;
   email: string;
   name: string;
-  role: 'User' | 'Admin';
+  role: 'user' | 'superAdmin' | 'departmentAdmin' | 'fieldAgent' | 'serviceProvider';
+  department?: 'electrical' | 'sanitation' | 'roads' | 'water' | 'parks';
+  availability?: boolean; // for fieldAgent and serviceProvider
 }
 
 interface AuthContextType {
@@ -39,7 +41,7 @@ export const AuthProvider: React.FC<{ children: React.ReactNode }> = ({ children
         id: '1',
         email: 'user@example.com',
         name: 'John Doe',
-        role: 'User' as const
+        role: 'user' as const
       };
       setUser(mockUser);
     }
@@ -51,12 +53,49 @@ export const AuthProvider: React.FC<{ children: React.ReactNode }> = ({ children
       // Simulate API call
       await new Promise(resolve => setTimeout(resolve, 1000));
       
-      const mockUser = {
-        id: email === 'admin@example.com' ? 'admin1' : '1',
-        email,
-        name: email === 'admin@example.com' ? 'Admin User' : 'John Doe',
-        role: email === 'admin@example.com' ? 'Admin' as const : 'User' as const
-      };
+      // Enhanced role system with demo users
+      let mockUser;
+      
+      if (email === 'admin@example.com') {
+        mockUser = {
+          id: 'admin1',
+          email,
+          name: 'Super Admin',
+          role: 'superAdmin' as const
+        };
+      } else if (email === 'electrical@example.com') {
+        mockUser = {
+          id: 'dept1',
+          email,
+          name: 'Electrical Admin',
+          role: 'departmentAdmin' as const,
+          department: 'electrical' as const
+        };
+      } else if (email === 'agent@example.com') {
+        mockUser = {
+          id: 'agent1',
+          email,
+          name: 'Field Agent',
+          role: 'fieldAgent' as const,
+          availability: true
+        };
+      } else if (email === 'provider@example.com') {
+        mockUser = {
+          id: 'provider1',
+          email,
+          name: 'Service Provider',
+          role: 'serviceProvider' as const,
+          department: 'electrical' as const,
+          availability: true
+        };
+      } else {
+        mockUser = {
+          id: '1',
+          email,
+          name: 'John Doe',
+          role: 'user' as const
+        };
+      }
       
       localStorage.setItem('token', 'mock-jwt-token');
       setUser(mockUser);
@@ -77,7 +116,7 @@ export const AuthProvider: React.FC<{ children: React.ReactNode }> = ({ children
         id: Date.now().toString(),
         email,
         name,
-        role: 'User' as const
+        role: 'user' as const
       };
       
       localStorage.setItem('token', 'mock-jwt-token');

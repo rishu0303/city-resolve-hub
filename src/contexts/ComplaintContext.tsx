@@ -16,6 +16,7 @@ export interface Complaint {
   };
   userId: string;
   assignedTo?: string;
+  assignedProvider?: string;
   createdAt: string;
   updatedAt: string;
 }

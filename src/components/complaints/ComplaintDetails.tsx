@@ -75,8 +75,8 @@ const ComplaintDetails = () => {
     }
   };
 
-  const canEdit = user && (user.id === complaint.userId || user.role === 'Admin');
-  const canDelete = user && (user.id === complaint.userId || user.role === 'Admin');
+  const canEdit = user && (user.id === complaint.userId || ['superAdmin', 'departmentAdmin'].includes(user.role));
+  const canDelete = user && (user.id === complaint.userId || ['superAdmin', 'departmentAdmin'].includes(user.role));
 
   return (
     <div className="max-w-4xl mx-auto px-4 sm:px-6 lg:px-8 py-8">
@@ -224,7 +224,7 @@ const ComplaintDetails = () => {
           )}
 
           {/* Admin Actions */}
-          {user?.role === 'Admin' && (
+          {user && ['superAdmin', 'departmentAdmin', 'fieldAgent'].includes(user.role) && (
             <Card>
               <CardHeader>
                 <CardTitle>Admin Actions</CardTitle>

@@ -95,9 +95,14 @@ const AdminLogin = () => {
             </form>
             
             <div className="mt-4 p-4 bg-blue-900/50 rounded-lg border border-blue-700/50">
-              <p className="text-sm text-blue-200 font-medium">Demo Admin Account:</p>
-              <p className="text-xs text-blue-300 mt-1">Email: admin@example.com</p>
-              <p className="text-xs text-blue-300">Password: password</p>
+              <p className="text-sm text-blue-200 font-medium mb-2">Demo Accounts:</p>
+              <div className="space-y-1 text-xs text-blue-300">
+                <p><strong>Super Admin:</strong> admin@example.com</p>
+                <p><strong>Electrical Dept:</strong> electrical@example.com</p>
+                <p><strong>Field Agent:</strong> agent@example.com</p>
+                <p><strong>Service Provider:</strong> provider@example.com</p>
+                <p className="text-blue-200 mt-2"><em>All passwords: password</em></p>
+              </div>
             </div>
           </CardContent>
         </Card>

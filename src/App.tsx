@@ -10,7 +10,7 @@ import Navbar from './components/layout/Navbar';
 import Login from './components/auth/Login';
 import AdminLogin from './components/auth/AdminLogin';
 import Register from './components/auth/Register';
-import UserDashboard from './components/dashboard/UserDashboard';
+import SmartDashboard from './components/dashboard/SmartDashboard';
 import AdminDashboard from './components/dashboard/AdminDashboard';
 import SubmitComplaint from './components/complaints/SubmitComplaint';
 import ComplaintDetails from './components/complaints/ComplaintDetails';
@@ -38,7 +38,7 @@ const App = () => (
                     path="/dashboard" 
                     element={
                       <ProtectedRoute>
-                        <UserDashboard />
+                        <SmartDashboard />
                       </ProtectedRoute>
                     } 
                   />
@@ -66,7 +66,7 @@ const App = () => (
                       </ProtectedRoute>
                     } 
                   />
-                  <Route path="/" element={<ProtectedRoute><UserDashboard /></ProtectedRoute>} />
+                  <Route path="/" element={<ProtectedRoute><SmartDashboard /></ProtectedRoute>} />
                   <Route path="*" element={<NotFound />} />
                 </Routes>
               </main>
