@@ -1,6 +1,19 @@
 import React from 'react';
 import { useAuth } from '../../contexts/AuthContext';
 
+// Lazy load all dashboard components at the top level
+const UserDashboard = React.lazy(() => import('./UserDashboard'));
+const AdminDashboard = React.lazy(() => import('./AdminDashboard'));
+const DepartmentAdminDashboard = React.lazy(() => import('./DepartmentAdminDashboard'));
+const FieldAgentDashboard = React.lazy(() => import('./FieldAgentDashboard'));
+const ServiceProviderDashboard = React.lazy(() => import('./ServiceProviderDashboard'));
+
+const LoadingSpinner = () => (
+  <div className="min-h-screen flex items-center justify-center">
+    <div className="animate-spin rounded-full h-32 w-32 border-b-2 border-blue-600"></div>
+  </div>
+);
+
 const SmartDashboard = () => {
   const { user } = useAuth();
 
@@ -18,53 +31,33 @@ const SmartDashboard = () => {
   // Route to appropriate dashboard based on user role
   switch (user.role) {
     case 'superAdmin':
-      // Lazy load AdminDashboard
-      const AdminDashboard = React.lazy(() => import('./AdminDashboard'));
       return (
-        <React.Suspense fallback={<div className="min-h-screen flex items-center justify-center">
-          <div className="animate-spin rounded-full h-32 w-32 border-b-2 border-blue-600"></div>
-        </div>}>
+        <React.Suspense fallback={<LoadingSpinner />}>
           <AdminDashboard />
         </React.Suspense>
       );
     case 'departmentAdmin':
-      // Lazy load DepartmentAdminDashboard
-      const DepartmentAdminDashboard = React.lazy(() => import('./DepartmentAdminDashboard'));
       return (
-        <React.Suspense fallback={<div className="min-h-screen flex items-center justify-center">
-          <div className="animate-spin rounded-full h-32 w-32 border-b-2 border-blue-600"></div>
-        </div>}>
+        <React.Suspense fallback={<LoadingSpinner />}>
           <DepartmentAdminDashboard />
         </React.Suspense>
       );
     case 'fieldAgent':
-      // Lazy load FieldAgentDashboard
-      const FieldAgentDashboard = React.lazy(() => import('./FieldAgentDashboard'));
       return (
-        <React.Suspense fallback={<div className="min-h-screen flex items-center justify-center">
-          <div className="animate-spin rounded-full h-32 w-32 border-b-2 border-blue-600"></div>
-        </div>}>
+        <React.Suspense fallback={<LoadingSpinner />}>
           <FieldAgentDashboard />
         </React.Suspense>
       );
     case 'serviceProvider':
-      // Lazy load ServiceProviderDashboard
-      const ServiceProviderDashboard = React.lazy(() => import('./ServiceProviderDashboard'));
       return (
-        <React.Suspense fallback={<div className="min-h-screen flex items-center justify-center">
-          <div className="animate-spin rounded-full h-32 w-32 border-b-2 border-blue-600"></div>
-        </div>}>
+        <React.Suspense fallback={<LoadingSpinner />}>
           <ServiceProviderDashboard />
         </React.Suspense>
       );
     case 'user':
     default:
-      // Lazy load UserDashboard
-      const UserDashboard = React.lazy(() => import('./UserDashboard'));
       return (
-        <React.Suspense fallback={<div className="min-h-screen flex items-center justify-center">
-          <div className="animate-spin rounded-full h-32 w-32 border-b-2 border-blue-600"></div>
-        </div>}>
+        <React.Suspense fallback={<LoadingSpinner />}>
           <UserDashboard />
         </React.Suspense>
       );
