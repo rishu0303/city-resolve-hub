@@ -1,10 +1,5 @@
 import React from 'react';
 import { useAuth } from '../../contexts/AuthContext';
-import UserDashboard from './UserDashboard';
-import AdminDashboard from './AdminDashboard';
-import DepartmentAdminDashboard from './DepartmentAdminDashboard';
-import FieldAgentDashboard from './FieldAgentDashboard';
-import ServiceProviderDashboard from './ServiceProviderDashboard';
 
 const SmartDashboard = () => {
   const { user } = useAuth();
@@ -23,16 +18,56 @@ const SmartDashboard = () => {
   // Route to appropriate dashboard based on user role
   switch (user.role) {
     case 'superAdmin':
-      return <AdminDashboard />;
+      // Lazy load AdminDashboard
+      const AdminDashboard = React.lazy(() => import('./AdminDashboard'));
+      return (
+        <React.Suspense fallback={<div className="min-h-screen flex items-center justify-center">
+          <div className="animate-spin rounded-full h-32 w-32 border-b-2 border-blue-600"></div>
+        </div>}>
+          <AdminDashboard />
+        </React.Suspense>
+      );
     case 'departmentAdmin':
-      return <DepartmentAdminDashboard />;
+      // Lazy load DepartmentAdminDashboard
+      const DepartmentAdminDashboard = React.lazy(() => import('./DepartmentAdminDashboard'));
+      return (
+        <React.Suspense fallback={<div className="min-h-screen flex items-center justify-center">
+          <div className="animate-spin rounded-full h-32 w-32 border-b-2 border-blue-600"></div>
+        </div>}>
+          <DepartmentAdminDashboard />
+        </React.Suspense>
+      );
     case 'fieldAgent':
-      return <FieldAgentDashboard />;
+      // Lazy load FieldAgentDashboard
+      const FieldAgentDashboard = React.lazy(() => import('./FieldAgentDashboard'));
+      return (
+        <React.Suspense fallback={<div className="min-h-screen flex items-center justify-center">
+          <div className="animate-spin rounded-full h-32 w-32 border-b-2 border-blue-600"></div>
+        </div>}>
+          <FieldAgentDashboard />
+        </React.Suspense>
+      );
     case 'serviceProvider':
-      return <ServiceProviderDashboard />;
+      // Lazy load ServiceProviderDashboard
+      const ServiceProviderDashboard = React.lazy(() => import('./ServiceProviderDashboard'));
+      return (
+        <React.Suspense fallback={<div className="min-h-screen flex items-center justify-center">
+          <div className="animate-spin rounded-full h-32 w-32 border-b-2 border-blue-600"></div>
+        </div>}>
+          <ServiceProviderDashboard />
+        </React.Suspense>
+      );
     case 'user':
     default:
-      return <UserDashboard />;
+      // Lazy load UserDashboard
+      const UserDashboard = React.lazy(() => import('./UserDashboard'));
+      return (
+        <React.Suspense fallback={<div className="min-h-screen flex items-center justify-center">
+          <div className="animate-spin rounded-full h-32 w-32 border-b-2 border-blue-600"></div>
+        </div>}>
+          <UserDashboard />
+        </React.Suspense>
+      );
   }
 };
 
